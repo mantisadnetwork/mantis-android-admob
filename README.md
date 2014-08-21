@@ -5,6 +5,19 @@ MANTIS Ad Network - Android AdMob Mediation
 
 Mediation layer that can be plugged into an AdMob implementation to serve advertisements from the MANTIS Ad Network on an Android application.
 
+# Application Requirements
+
+This library depends on **Google Play Services** which is a requirement of AdMob as the old SDK has been deprecated as of August 1st, 2014. Only API level 9 (Android 2.3) or higher is supported.
+
+# Integrating our mediation layer
+
+Prior to integration, be sure that your application is setup to include **Google Play Services**. Instructions on how to configure the library can be found at http://developer.android.com/google/play-services/setup.html.
+
+## Eclipse ADT
+
+1. Clone our repository to your machine locally or download the latest release as a zip file from: https://github.com/mantisadnetwork/mantis-android-admob/archive/master.zip
+2. Import the project into your application workspace (File > Import > Android > Existing Android Code Into Workspace)
+3. On your android application, open the Android properties screen (File > Properties > Android) and add the recently imported project as a library.
 
 
 # Configuring AdMob
