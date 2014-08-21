@@ -13,12 +13,25 @@ This library depends on **Google Play Services** which is a requirement of AdMob
 
 Prior to integration, be sure that your application is setup to include **Google Play Services**. Instructions on how to configure the library can be found at http://developer.android.com/google/play-services/setup.html.
 
-## Eclipse ADT
+## Workspace Setup
 
 1. Clone our repository to your machine locally or download the latest release as a zip file from: https://github.com/mantisadnetwork/mantis-android-admob/archive/master.zip
 2. Import the project into your application workspace (File > Import > Android > Existing Android Code Into Workspace)
 3. On your android application, open the Android properties screen (File > Properties > Android) and add the recently imported project as a library.
 
+## Example Implementation
+
+If you have never integrated into the AdMob SDK before, you can take a look at our example project that shows you how to not only configure AdMob, but to configure the required MANTIS values. https://github.com/mantisadnetwork/mantis-android-admob-example/
+
+## Basic Configuration
+
+To get started, the only thing you need to do is configure the MANTIS context with the property ID found in your MANTIS administration panel. Typically, this call is done in your main activity, prior to any AdMob initialization.
+
+```
+import com.mantisadnetwork.android.admob.Context;
+
+Context.get().setPropertyId("property-id-found-in-admin");
+```
 
 # Configuring AdMob
 
