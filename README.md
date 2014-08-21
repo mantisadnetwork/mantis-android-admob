@@ -1,6 +1,3 @@
-Android AdMob Mediation
-====================
-
 ![mantis ad network](https://github.com/mantisadnetwork/mantis-android-admob/raw/master/images/logo.png)
 
 # Application Requirements
