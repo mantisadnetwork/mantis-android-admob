@@ -1,9 +1,7 @@
-![mantis ad network](https://github.com/mantisadnetwork/mantis-android-admob/raw/master/images/logo.png)
-
 Android AdMob Mediation
 ====================
 
-Mediation layer that can be plugged into an AdMob implementation to serve advertisements from the MANTIS Ad Network on an Android application.
+![mantis ad network](https://github.com/mantisadnetwork/mantis-android-admob/raw/master/images/logo.png)
 
 # Application Requirements
 
