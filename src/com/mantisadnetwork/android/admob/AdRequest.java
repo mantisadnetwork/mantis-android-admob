@@ -11,15 +11,21 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Arrays;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AdRequest {
-	public static AdResponse exec(Context context, String[] zones) {
-		JSONObject request = buildJsonRequest(context, zones);
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 
-		InputStream response = sendRequest("http://mantisadnetwork.apiary-mock.com/mobile/serve", request);
+public class AdRequest {
+	public static String ENDPOINT_URL = "http://mantodea.mantisadnetwork.com/mobile/ads";
+	
+	public static AdResponse exec(Context context, UserContext userContext, AdvertisingIdClient.Info aid, String[] zones) {
+		JSONObject request = buildJsonRequest(context, userContext, aid, zones);
+
+		InputStream response = sendRequest(ENDPOINT_URL, request);
 
 		return parseResponse(response);
 	}
@@ -100,10 +106,16 @@ public class AdRequest {
 		}
 	}
 
-	protected static JSONObject buildJsonRequest(Context context, String[] zones) {
+	protected static JSONObject buildJsonRequest(Context context, UserContext userContext,
+			AdvertisingIdClient.Info aid, String[] zones) {
 		JSONObject parameter = new JSONObject();
 
 		try {
+			if (aid != null) {
+				parameter.put("trackable", aid.isLimitAdTrackingEnabled());
+				parameter.put("mobileUUID", aid.getId());
+			}
+
 			if (context.getTitle() != null) {
 				parameter.put("title", context.getTitle());
 			}
@@ -112,10 +124,21 @@ public class AdRequest {
 				parameter.put("screen", context.getScreen());
 			}
 
-			parameter.put("markImpression", "true");
-			parameter.put("zones", zones);
+			if (userContext.getAge() != null) {
+				parameter.put("age", userContext.getAge());
+			}
+
+			if (userContext.getLatitude() != null) {
+				parameter.put("latitude", userContext.getLatitude());
+			}
+
+			if (userContext.getLongitude() != null) {
+				parameter.put("longitude", userContext.getLongitude());
+			}
+
+			parameter.put("mobileSdk", true);
+			parameter.put("zones", new JSONArray(Arrays.asList(zones)));
 			parameter.put("propertyId", context.getPropertyId());
-			parameter.put("sdkVersion", "1");
 		} catch (JSONException ex) {
 			throw new RuntimeException("Unable to build JSON request object", ex);
 		}

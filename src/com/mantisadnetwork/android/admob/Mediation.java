@@ -10,8 +10,20 @@ import com.google.ads.mediation.customevent.CustomEventBannerListener;
 public class Mediation implements CustomEventBanner {
 	@Override
 	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label,
-			String serverParameter, AdSize size, MediationAdRequest mediationAdRequest, Object customEventExtra) {
-		AdRequestTask task = new AdRequestTask(activity, listener, serverParameter);
+			String serverParameter, AdSize size, MediationAdRequest request, Object customEventExtra) {
+
+		UserContext context = new UserContext();
+
+		if (request.getLocation() != null) {
+			context.setLatitude(request.getLocation().getLatitude());
+			context.setLongitude(request.getLocation().getLatitude());
+		}
+
+		if (request.getAgeInYears() != null) {
+			context.setAge(request.getAgeInYears());
+		}
+
+		AdRequestTask task = new AdRequestTask(activity, listener, serverParameter, context);
 		task.execute();
 	}
 

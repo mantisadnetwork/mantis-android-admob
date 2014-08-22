@@ -7,19 +7,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.google.ads.mediation.customevent.CustomEventBannerListener;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.loopj.android.image.SmartImageView;
 
 public class AdRequestTask extends AsyncTask<Void, Void, Void> {
 	private final String zone;
 	private final Activity activity;
+	private final UserContext context;
 	private final CustomEventBannerListener listener;
 
 	private AdResponse result;
 
-	public AdRequestTask(Activity activity, CustomEventBannerListener listener, String zone) {
+	public AdRequestTask(Activity activity, CustomEventBannerListener listener, String zone, UserContext context) {
 		this.activity = activity;
 		this.listener = listener;
 		this.zone = zone;
+		this.context = context;
 	}
 
 	@Override
@@ -28,7 +31,15 @@ public class AdRequestTask extends AsyncTask<Void, Void, Void> {
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		result = AdRequest.exec(Context.get(), new String[] { zone });
+		AdvertisingIdClient.Info info = null;
+
+		try {
+			info = AdvertisingIdClient.getAdvertisingIdInfo(this.activity);
+		} catch (Exception e) {
+
+		}
+
+		result = AdRequest.exec(Context.get(), context, info, new String[] { zone });
 
 		return null;
 	}
