@@ -6,10 +6,10 @@ import org.json.JSONObject;
 import android.net.Uri;
 
 public class Ad {
-	private final String image;
-	private final String url;
-	private final int width;
-	private final int height;
+	private String image;
+	private String url;
+	private int width;
+	private int height;
 
 	public Ad(JSONObject json) {
 		try {
@@ -18,7 +18,8 @@ public class Ad {
 			width = json.getInt("width");
 			height = json.getInt("height");
 		} catch (JSONException e) {
-			throw new RuntimeException("There was a problem converting JSON ad into object", e);
+			//throw new RuntimeException("There was a problem converting JSON ad into object", e);
+			
 		}
 	}
 

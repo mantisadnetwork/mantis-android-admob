@@ -31,6 +31,10 @@ public class AdRequest {
 	}
 
 	protected static AdResponse parseResponse(InputStream is) {
+		if(is == null){
+			return new AdResponse();
+		}
+		
 		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
 		StringBuilder out = new StringBuilder();
@@ -43,7 +47,8 @@ public class AdRequest {
 				out.append(newLine);
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("There was a problem processing the response", e);
+			//throw new RuntimeException("There was a problem processing the response", e);
+			return new AdResponse();
 		}
 
 		JSONObject json;
@@ -51,7 +56,8 @@ public class AdRequest {
 		try {
 			json = new JSONObject(out.toString());
 		} catch (JSONException e) {
-			throw new RuntimeException("Invalid JSON return from MANTIS", e);
+			//throw new RuntimeException("Invalid JSON return from MANTIS", e);
+			return new AdResponse();
 		}
 
 		return new AdResponse(json);
@@ -63,7 +69,8 @@ public class AdRequest {
 		try {
 			url = new URL(endpoint);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("Invalid endpoint URL defined: " + endpoint, e);
+			//throw new RuntimeException("Invalid endpoint URL defined: " + endpoint, e);
+			return null;
 		}
 
 		HttpURLConnection conn;
@@ -71,7 +78,8 @@ public class AdRequest {
 		try {
 			conn = (HttpURLConnection) url.openConnection();
 		} catch (IOException e) {
-			throw new RuntimeException("Unable to connect to the endpoint: " + endpoint, e);
+			//throw new RuntimeException("Unable to connect to the endpoint: " + endpoint, e);
+			return null;
 		}
 
 		conn.setReadTimeout(10000);
@@ -84,7 +92,8 @@ public class AdRequest {
 		try {
 			conn.setRequestMethod("POST");
 		} catch (ProtocolException e) {
-			throw new RuntimeException("This should never happen.", e);
+			//throw new RuntimeException("This should never happen.", e);
+			return null;
 		}
 
 		OutputStream os;
@@ -102,7 +111,8 @@ public class AdRequest {
 
 			return conn.getInputStream();
 		} catch (IOException e) {
-			throw new RuntimeException("There was a problem retrieving the response from: " + endpoint, e);
+			//throw new RuntimeException("There was a problem retrieving the response from: " + endpoint, e);
+			return null;
 		}
 	}
 
@@ -140,7 +150,7 @@ public class AdRequest {
 			parameter.put("zones", new JSONArray(Arrays.asList(zones)));
 			parameter.put("propertyId", context.getPropertyId());
 		} catch (JSONException ex) {
-			throw new RuntimeException("Unable to build JSON request object", ex);
+			//throw new RuntimeException("Unable to build JSON request object", ex);
 		}
 
 		return parameter;

@@ -10,6 +10,10 @@ import org.json.JSONObject;
 public class AdResponse {
 	private Map<String, Ad> ads = new HashMap<String, Ad>();
 
+	public AdResponse(){
+		
+	}
+	
 	public AdResponse(JSONObject object) {
 		JSONObject ads;
 
@@ -25,7 +29,7 @@ public class AdResponse {
 				this.ads.put(key, new Ad(ads.getJSONObject(key)));
 			}
 		} catch (JSONException e) {
-			throw new RuntimeException("There was a problem converting MANTIS JSON to object", e);
+			//throw new RuntimeException("There was a problem converting MANTIS JSON to object", e);
 		}
 	}
 
