@@ -2,9 +2,11 @@ package com.mantisadnetwork.android.admob;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 
 import com.google.ads.mediation.customevent.CustomEventBannerListener;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
@@ -49,7 +51,23 @@ public class AdRequestTask extends AsyncTask<Void, Void, Void> {
 		final Ad ad = this.result.getAdForZone(zone);
 
 		if (ad != null) {
+			RelativeLayout layout = new RelativeLayout(activity);
+			layout.setBackgroundColor(Color.BLACK);
+			
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+	                RelativeLayout.LayoutParams.FILL_PARENT,
+	                RelativeLayout.LayoutParams.WRAP_CONTENT);
+			layout.setLayoutParams(params);
+		
 			SmartImageView imageView = new SmartImageView(activity);
+			RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
+	                RelativeLayout.LayoutParams.FILL_PARENT,
+	                RelativeLayout.LayoutParams.WRAP_CONTENT);
+			imageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+			imageView.setLayoutParams(imageParams);
+			
+			layout.addView(imageView);
+			
 			imageView.setImageUrl(ad.getImage());
 			imageView.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -61,7 +79,7 @@ public class AdRequestTask extends AsyncTask<Void, Void, Void> {
 				}
 			});
 
-			listener.onReceivedAd(imageView);
+			listener.onReceivedAd(layout);
 		}
 	}
 }
